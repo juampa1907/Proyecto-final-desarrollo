@@ -1,31 +1,28 @@
 package co.edu.unbosque.model;
 
 public class Semaforo {
+    private Coordenada ubicacion;
+    private String color;
+    private int contadorTurnos;
 
-	private Coordenada ubicacion;
-	private String color;
-	
-	public Semaforo(Coordenada ubicacion, String color) {
-		super();
-		this.ubicacion = ubicacion;
-		this.color = color;
-	}
+    public Semaforo(Coordenada ubicacion) {
+        this.ubicacion = ubicacion;
+        this.color = "Rojo";
+        this.contadorTurnos = 0;
+    }
 
-	public Coordenada getUbicacion() {
-		return ubicacion;
-	}
+    public void cambiarEstado() {
+        contadorTurnos++;
+        if (contadorTurnos % 2 == 0) {
+            color = color.equals("Rojo") ? "Verde" : "Rojo";
+        }
+    }
 
-	public void setUbicacion(Coordenada ubicacion) {
-		this.ubicacion = ubicacion;
-	}
+    public boolean esRojo() {
+        return color.equals("Rojo");
+    }
 
-	public String getColor() {
-		return color;
-	}
-
-	public void setColor(String color) {
-		this.color = color;
-	}
-	
-	
+    public String getColor() { return color; }
+    public Coordenada getUbicacion() { return ubicacion; }
 }
+

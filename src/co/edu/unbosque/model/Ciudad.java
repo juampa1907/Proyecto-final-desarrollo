@@ -1,64 +1,91 @@
 package co.edu.unbosque.model;
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Ciudad {
+    private int filas;
+    private int columnas;
+    private String[][] matriz;
+    private int turnoActual;
+    private List<Carro> carros;
+    private List<Semaforo> semaforos;
+    private Random rand;
 
-	private int[][] plano;
-	private int turnoActual;
-	private List<Calle> calles;
-	private List<Carro> carros;
-	private List<Semaforo> semaforos;
-	
-	public Ciudad(int[][] plano, int turnoActual, List<Calle> calles, List<Carro> carros, List<Semaforo> semaforos) {
-		super();
-		this.plano = plano;
-		this.turnoActual = turnoActual;
-		this.calles = calles;
-		this.carros = carros;
-		this.semaforos = semaforos;
-	}
+    public Ciudad(int filas, int columnas) {
+        this.filas = filas;
+        this.columnas = columnas;
+        this.turnoActual = 0;
+        this.matriz = new String[filas][columnas];
+        this.carros = new ArrayList<>();
+        this.semaforos = new ArrayList<>();
+        this.rand = new Random();
+        inicializar();
+    }
 
-	public int[][] getPlano() {
-		return plano;
-	}
+    private void inicializar() {
+        // Limpiar matriz
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                matriz[i][j] = " ";
+            }
+        }
+        
+        // Agregar vehículo
+        Carro v = new Carro(1, new Coordenada(0, 0), "Avanzando");
+        carros.add(v);
+        matriz[0][0] = "V";
 
-	public void setPlano(int[][] plano) {
-		this.plano = plano;
-	}
+        // Agregar semáforo
+        Semaforo s = new Semaforo(new Coordenada(0, 2));
+        semaforos.add(s);
+        matriz[0][2] = "S";
+    }
 
-	public int getTurnoActual() {
-		return turnoActual;
-	}
+    public void simularTurno() {
+        turnoActual++;
 
-	public void setTurnoActual(int turnoActual) {
-		this.turnoActual = turnoActual;
-	}
+        // Cambiar semáforos
+        for (Semaforo s : semaforos) {
+            s.cambiarEstado();
+        }
 
-	public List<Calle> getCalles() {
-		return calles;
-	}
+        // Limpiar matriz
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                if (!matriz[i][j].equals("S")) matriz[i][j] = " ";
+            }
+        }
 
-	public void setCalles(List<Calle> calles) {
-		this.calles = calles;
-	}
+        // Mover vehículos
+        for (Carro v : carros) {
+            Coordenada pos = v.getPosicion();
+            int fila = pos.getFila();
+            int col = pos.getColumna();
 
-	public List<Carro> getCarros() {
-		return carros;
-	}
+            boolean semaforoRojo = false;
+            for (Semaforo s : semaforos) {
+                Coordenada ub = s.getUbicacion();
+                if (ub.getFila() == fila && ub.getColumna() == col + 1 && s.esRojo()) {
+                    semaforoRojo = true;
+                    break;
+                }
+            }
 
-	public void setCarros(List<Carro> carros) {
-		this.carros = carros;
-	}
+            if (!semaforoRojo && col + 1 < columnas) {
+                v.avanzar();
+            } else {
+                v.detener();
+            }
 
-	public List<Semaforo> getSemaforos() {
-		return semaforos;
-	}
+            Coordenada nueva = v.getPosicion();
+            matriz[nueva.getFila()][nueva.getColumna()] = "V";
+        }
+    }
 
-	public void setSemaforos(List<Semaforo> semaforos) {
-		this.semaforos = semaforos;
-	}
-	
-	
-	
+    public String[][] getMatriz() {
+        return matriz;
+    }
 }
+

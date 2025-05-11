@@ -1,40 +1,29 @@
 package co.edu.unbosque.model;
 
 public class Carro {
-
-	private int idCarro; 
+	private int id;
 	private Coordenada posicion;
 	private int velocidad;
-	
-	public Carro(int idCarro, Coordenada posicion, int velocidad) {
-		super();
-		this.idCarro = idCarro;
+	private String estado;
+		
+	public Carro(int id, Coordenada posicion, String estadoInicial) {
+		this.id = id;
 		this.posicion = posicion;
-		this.velocidad = velocidad;
+		this.velocidad = 1;
+		this.estado = estadoInicial;
 	}
-
-	public int getIdCarro() {
-		return idCarro;
-	}
-
-	public void setIdCarro(int idCarro) {
-		this.idCarro = idCarro;
-	}
-
-	public Coordenada getPosicion() {
-		return posicion;
-	}
-
-	public void setPosicion(Coordenada posicion) {
-		this.posicion = posicion;
-	}
-
-	public int getVelocidad() {
-		return velocidad;
-	}
-
-	public void setVelocidad(int velocidad) {
-		this.velocidad = velocidad;
+		
+	public void avanzar() {
+		if (estado.equals("Avanzando")) {
+			posicion.mover(0, 1);
+	        }
 	}
 	
-}
+	public void detener() {
+		estado = "Detenido";
+	}
+	
+	public String getEstado() { return estado; }
+	public Coordenada getPosicion() { return posicion; }
+	public int getId() { return id; }
+	}

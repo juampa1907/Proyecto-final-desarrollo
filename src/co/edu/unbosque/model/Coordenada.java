@@ -1,31 +1,20 @@
 package co.edu.unbosque.model;
 
 public class Coordenada {
-
+    
 	private int fila;
-	private int columna;
-	
-	public Coordenada(int fila, int columna) {
-		super();
-		this.fila = fila;
-		this.columna = columna;
-	}
+    private int columna;
 
-	public int getFila() {
-		return fila;
-	}
+    public Coordenada(int fila, int columna) {
+        this.fila = fila;
+        this.columna = columna;
+    }
 
-	public void setFila(int fila) {
-		this.fila = fila;
-	}
+    public int getFila() { return fila; }
+    public int getColumna() { return columna; }
 
-	public int getColumna() {
-		return columna;
-	}
-
-	public void setColumna(int columna) {
-		this.columna = columna;
-	}
-	
-	
+    public void mover(int deltaFila, int deltaColumna) {
+        this.fila += deltaFila;
+        this.columna += deltaColumna;
+    }
 }

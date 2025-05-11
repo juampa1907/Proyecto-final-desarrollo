@@ -9,7 +9,6 @@ public class Calle {
 	private String direccion;
 	private List<Evento> eventos;
 	
-	
 	public Calle(Coordenada inicio, Coordenada fin, String direccion, List<Evento> eventos) {
 		super();
 		this.inicio = inicio;
