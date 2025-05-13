@@ -22,7 +22,11 @@ public class Semaforo {
         return color.equals("Rojo");
     }
 
-    public String getColor() { return color; }
-    public Coordenada getUbicacion() { return ubicacion; }
+    public String getColor() { 
+    	return color; 
+    }
+    public Coordenada getUbicacion() { 
+    	return ubicacion; 
+    	}
 }
 
